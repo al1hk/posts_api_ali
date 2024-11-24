@@ -59,7 +59,7 @@ function PostsGrid({ posts }: { posts: Post[] }) {
   );
 }
 
-export default async function Page() {
+export default async function FetchPostsPage() {
   const posts = await getPosts();
   
   return (

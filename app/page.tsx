@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Post {
   id: number;
@@ -62,8 +63,6 @@ async function getPosts() {
 }
 
 export default async function Home() {
-  const posts = await getPosts();
-  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
@@ -74,9 +73,15 @@ export default async function Home() {
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
               Discover Amazing Stories
             </h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
               Explore our collection of handpicked articles covering the most fascinating topics
             </p>
+            <Link 
+              href="/fetch-posts" 
+              className="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+            >
+              View All Posts
+            </Link>
           </div>
         </div>
         
@@ -95,11 +100,6 @@ export default async function Home() {
             />
           </svg>
         </div>
-      </div>
-
-      {/* Posts Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <PostsGrid posts={posts} />
       </div>
     </div>
   );

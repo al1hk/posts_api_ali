@@ -20,7 +20,7 @@ async function getPosts() {
   return data.posts;
 }
 
-function PostsGrid({ posts }: { posts: Post[] }) {
+export function PostsGrid({ posts }: { posts: Post[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post: Post) => (

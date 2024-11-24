@@ -20,7 +20,7 @@ async function getPosts() {
   return data.posts;
 }
 
-export function PostsGrid({ posts }: { posts: Post[] }) {
+function PostsGrid({ posts }: { posts: Post[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post: Post) => (
@@ -50,11 +50,7 @@ export function PostsGrid({ posts }: { posts: Post[] }) {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm">
                   {post.userId}
                 </div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Author</span>
               </div>
-              <button className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">
-                Read More →
-              </button>
             </div>
           </div>
         </div>
@@ -63,12 +59,12 @@ export function PostsGrid({ posts }: { posts: Post[] }) {
   );
 }
 
-export default async function PostsPage() {
+export default async function Page() {
   const posts = await getPosts();
   
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Latest Posts</h1>
+      <h1 className="text-3xl font-bold mb-8">Posts</h1>
       <PostsGrid posts={posts} />
     </div>
   );

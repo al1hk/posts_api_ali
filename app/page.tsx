@@ -1,5 +1,50 @@
 import Image from "next/image";
-import { PostsGrid } from "./fetch-posts/page";
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+function PostsGrid({ posts }: { posts: Post[] }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post: Post) => (
+        <div
+          key={post.id}
+          className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+        >
+          <div className="relative">
+            <img
+              src={`https://picsum.photos/seed/${post.id}/400/250`}
+              alt={`Cover for ${post.title}`}
+              className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs">
+              Post #{post.id}
+            </div>
+          </div>
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {post.title}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+              {post.body}
+            </p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm">
+                  {post.userId}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 async function getPosts() {
   const response = await fetch('http://localhost:3000/api/external', {
@@ -52,26 +97,10 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Latest Articles
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
-        </div>
-
+      {/* Posts Section */}
+      <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <PostsGrid posts={posts} />
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-50 dark:bg-gray-900 py-12 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <p> Ali Hassan API Blog. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }

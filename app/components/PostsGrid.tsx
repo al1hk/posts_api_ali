@@ -68,4 +68,3 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
     </div>
   );
 }
-

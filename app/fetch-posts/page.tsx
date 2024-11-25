@@ -8,7 +8,7 @@ interface Post {
   userId: number;
 }
 
-async function getPosts() {
+async function getPosts(): Promise<Post[]> {
   const response = await fetch('http://localhost:3000/api/external', {
     next: {
       revalidate: 3600

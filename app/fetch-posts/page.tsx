@@ -1,6 +1,8 @@
 import PostsGrid from '../components/PostsGrid';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 interface Post {
   id: number;
   title: string;
@@ -9,25 +11,30 @@ interface Post {
 }
 
 async function getPosts(): Promise<Post[]> {
-  // Get the base URL depending on the environment
-  const baseUrl = process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : '';
+  try {
+    // Get the base URL depending on the environment
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000'
+        : '';
 
-  const response = await fetch(`${baseUrl}/api/external`, {
-    next: {
-      revalidate: 3600
+    const response = await fetch(`${baseUrl}/api/external`, {
+      next: {
+        revalidate: 3600
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
     }
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to fetch posts');
+    
+    const data = await response.json();
+    return data.posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return []; // Return empty array as fallback
   }
-  
-  const data = await response.json();
-  return data.posts;
 }
 
 export default async function FetchPostsPage() {

@@ -13,13 +13,12 @@ interface Post {
 async function getPosts(): Promise<Post[]> {
   try {
     // Get the base URL depending on the environment
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000'
-        : '';
-
-    const response = await fetch(`${baseUrl}/api/external`, {
+    const baseUrl = process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : '';  // Empty string for production as we'll use relative URL
+    
+    const apiUrl = baseUrl ? `${baseUrl}/api/external` : '/api/external';
+    const response = await fetch(apiUrl, {
       next: {
         revalidate: 3600
       }
